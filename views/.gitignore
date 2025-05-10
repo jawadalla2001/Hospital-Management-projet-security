@@ -1,0 +1,5 @@
+# Ignorer un fichier spécifique
+RAPPORT_AUDIT.md
+SECURITY.md
+VULNERABILITES.md
+GUIDE_TESTS_INTRUSION.md

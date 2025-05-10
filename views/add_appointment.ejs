@@ -205,76 +205,366 @@
                 </div>
                 <div class="row">
                     <div class="col-lg-8 offset-lg-2">
-                        <form method="POST">
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <div class="form-group">
-										<label>Patient Name </label>
-										<input class="form-control" type="text" name="p_name" >
-									</div>
-                                </div>
-                               
-                            </div>
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label>Department</label>
-                                        <select class="" name="department">
-                                            
-                                            <option value="Dentists">Dentists</option>
-                                            <option value="Neurology">Neurology</option>
-                                            <option value="Opthalmology">Opthalmology</option>
-                                            <option value="Orthopedics">Orthopedics</option>
-                                            <option value="Cancer Departmen">Cancer Department</option>
-                                            <option value="ENT Departmen">ENT Department</option>
-                                        </select>
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label>Doctor Name</label>
-                                        <input type="text" name="d_name" id="">
-                                    </div>
+                        <!-- Form Alert Messages -->
+                        <div class="alert alert-success alert-dismissible fade show d-none" id="success-alert" role="alert">
+                            <strong>Success!</strong> Appointment has been created successfully.
+                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="alert alert-danger alert-dismissible fade show d-none" id="error-alert" role="alert">
+                            <strong>Error!</strong> <span id="error-message"></span>
+                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+
+                        <!-- Appointment Form -->
+                        <form method="POST" id="appointment-form">
+                            <!-- Step Progress Indicator -->
+                            <div class="row mb-4">
+                                <div class="col-12">
+                                    <ul class="nav nav-tabs nav-tabs-solid nav-tabs-rounded nav-justified">
+                                        <li class="nav-item"><a class="nav-link active" href="#patient-details" data-toggle="tab">Patient Details</a></li>
+                                        <li class="nav-item"><a class="nav-link" href="#appointment-details" data-toggle="tab">Appointment Details</a></li>
+                                        <li class="nav-item"><a class="nav-link" href="#additional-details" data-toggle="tab">Additional Info</a></li>
+                                    </ul>
                                 </div>
                             </div>
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label>Date</label>
-                                        <div class="cal-icon">
-                                            <input type="text" class="form-control datetimepicker" name="date">
+
+                            <div class="tab-content">
+                                <!-- Patient Details Tab -->
+                                <div class="tab-pane show active" id="patient-details">
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label>Patient Name <span class="text-danger">*</span></label>
+                                                <input class="form-control" type="text" name="p_name" required>
+                                                <small class="form-text text-muted">Enter full name as in medical records</small>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label>Patient ID</label>
+                                                <div class="input-group">
+                                                    <input type="text" class="form-control" name="patient_id" placeholder="Optional">
+                                                    <div class="input-group-append">
+                                                        <button class="btn btn-outline-secondary" type="button" id="search-patient-btn">
+                                                            <i class="fa fa-search"></i>
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                                <small class="form-text text-muted">Search existing patient by ID</small>
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label>Time</label>
-                                        <div class="time-icon">
-                                            <input type="text" class="form-control" id="datetimepicker3" name="time">
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label>Patient Email <span class="text-danger">*</span></label>
+                                                <input class="form-control" type="email" name="email" required>
+                                                <small class="form-text text-muted">Confirmation will be sent to this email</small>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label>Patient Phone Number <span class="text-danger">*</span></label>
+                                                <input class="form-control" type="text" name="phone" required>
+                                                <small class="form-text text-muted">Format: (XXX) XXX-XXXX</small>
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label>Patient Email</label>
-                                        <input class="form-control" type="email" name="email">
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label>Date of Birth</label>
+                                                <div class="cal-icon">
+                                                    <input type="text" class="form-control datetimepicker" name="dob">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label>Gender</label>
+                                                <select class="select form-control" name="gender">
+                                                    <option value="">Select Gender</option>
+                                                    <option value="male">Male</option>
+                                                    <option value="female">Female</option>
+                                                    <option value="other">Other</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="text-right">
+                                        <button type="button" class="btn btn-primary next-tab">Next</button>
                                     </div>
                                 </div>
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label>Patient Phone Number</label>
-                                        <input class="form-control" type="text" name="phone">
+
+                                <!-- Appointment Details Tab -->
+                                <div class="tab-pane" id="appointment-details">
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label>Department <span class="text-danger">*</span></label>
+                                                <select class="select form-control" name="department" id="department-select" required>
+                                                    <option value="">Select Department</option>
+                                                    <option value="Dentists">Dentists</option>
+                                                    <option value="Neurology">Neurology</option>
+                                                    <option value="Opthalmology">Ophthalmology</option>
+                                                    <option value="Orthopedics">Orthopedics</option>
+                                                    <option value="Cancer Department">Cancer Department</option>
+                                                    <option value="ENT Department">ENT Department</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label>Doctor <span class="text-danger">*</span></label>
+                                                <select class="select form-control" name="d_name" id="doctor-select" required>
+                                                    <option value="">Select Department First</option>
+                                                    <!-- Options will be populated based on department selection -->
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label>Date <span class="text-danger">*</span></label>
+                                                <div class="cal-icon">
+                                                    <input type="text" class="form-control datetimepicker" name="date" required>
+                                                </div>
+                                                <small class="form-text text-muted">Select a date within the next 60 days</small>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label>Time <span class="text-danger">*</span></label>
+                                                <div class="time-icon">
+                                                    <input type="text" class="form-control" id="datetimepicker3" name="time" required>
+                                                </div>
+                                                <small class="form-text text-muted">Working hours: 8:00 AM - 5:00 PM</small>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label>Appointment Type</label>
+                                                <select class="select form-control" name="appointment_type">
+                                                    <option value="Consultation">Consultation</option>
+                                                    <option value="Routine Checkup">Routine Checkup</option>
+                                                    <option value="Follow-up">Follow-up</option>
+                                                    <option value="Emergency">Emergency</option>
+                                                    <option value="Surgery">Surgery</option>
+                                                    <option value="Test Results">Test Results</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label>Status</label>
+                                                <select class="select form-control" name="status">
+                                                    <option value="confirmed">Confirmed</option>
+                                                    <option value="pending" selected>Pending</option>
+                                                    <option value="cancelled">Cancelled</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label>Duration (minutes)</label>
+                                                <select class="select form-control" name="duration">
+                                                    <option value="15">15 minutes</option>
+                                                    <option value="30" selected>30 minutes</option>
+                                                    <option value="45">45 minutes</option>
+                                                    <option value="60">60 minutes</option>
+                                                    <option value="90">90 minutes</option>
+                                                    <option value="120">120 minutes</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="text-right">
+                                        <button type="button" class="btn btn-default prev-tab">Previous</button>
+                                        <button type="button" class="btn btn-primary next-tab">Next</button>
                                     </div>
                                 </div>
-                            </div>
-                            
-                            
-                            <div class="m-t-20 text-center">
-                                <button class="btn btn-primary submit-btn">Create Appointment</button>
+
+                                <!-- Additional Details Tab -->
+                                <div class="tab-pane" id="additional-details">
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <div class="form-group">
+                                                <label>Reason for Visit</label>
+                                                <textarea class="form-control" rows="3" name="reason"></textarea>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <div class="form-group">
+                                                <label>Notes/Special Requirements</label>
+                                                <textarea class="form-control" rows="3" name="notes"></textarea>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label>Insurance Information</label>
+                                                <input type="text" class="form-control" name="insurance">
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label>Send Reminder</label>
+                                                <div class="form-check">
+                                                    <input class="form-check-input" type="checkbox" value="email" name="reminder_email" id="reminder-email" checked>
+                                                    <label class="form-check-label" for="reminder-email">
+                                                        Email
+                                                    </label>
+                                                </div>
+                                                <div class="form-check">
+                                                    <input class="form-check-input" type="checkbox" value="sms" name="reminder_sms" id="reminder-sms" checked>
+                                                    <label class="form-check-label" for="reminder-sms">
+                                                        SMS
+                                                    </label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="text-right">
+                                        <button type="button" class="btn btn-default prev-tab">Previous</button>
+                                        <button type="submit" class="btn btn-primary submit-btn">Create Appointment</button>
+                                    </div>
+                                </div>
                             </div>
                         </form>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Doctor Schedule Modal -->
+            <div class="modal fade" id="doctor-schedule-modal" tabindex="-1" role="dialog" aria-labelledby="scheduleModalLabel" aria-hidden="true">
+                <div class="modal-dialog modal-lg" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="scheduleModalLabel">Doctor's Schedule</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="schedule-widget">
+                                        <!-- Doctor Schedule Content -->
+                                        <div class="schedule-header">
+                                            <div class="row">
+                                                <div class="col-md-12">
+                                                    <div class="day-slot">
+                                                        <ul>
+                                                            <li>
+                                                                <span>Mon</span>
+                                                                <span class="slot-date">Today</span>
+                                                            </li>
+                                                            <li>
+                                                                <span>Tue</span>
+                                                                <span class="slot-date">Tomorrow</span>
+                                                            </li>
+                                                            <li>
+                                                                <span>Wed</span>
+                                                                <span class="slot-date">Wed, Jul 15</span>
+                                                            </li>
+                                                            <li>
+                                                                <span>Thu</span>
+                                                                <span class="slot-date">Thu, Jul 16</span>
+                                                            </li>
+                                                            <li>
+                                                                <span>Fri</span>
+                                                                <span class="slot-date">Fri, Jul 17</span>
+                                                            </li>
+                                                        </ul>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="schedule-cont">
+                                            <div class="row">
+                                                <div class="col-md-12">
+                                                    <div class="time-slot">
+                                                        <ul class="clearfix">
+                                                            <li>
+                                                                <a class="timing" href="#">
+                                                                    <span>9:00</span> <span>AM</span>
+                                                                </a>
+                                                                <a class="timing" href="#">
+                                                                    <span>10:00</span> <span>AM</span>
+                                                                </a>
+                                                                <a class="timing" href="#">
+                                                                    <span>11:00</span> <span>AM</span>
+                                                                </a>
+                                                            </li>
+                                                            <li>
+                                                                <a class="timing" href="#">
+                                                                    <span>9:00</span> <span>AM</span>
+                                                                </a>
+                                                                <a class="timing" href="#">
+                                                                    <span>10:00</span> <span>AM</span>
+                                                                </a>
+                                                                <a class="timing" href="#">
+                                                                    <span>11:00</span> <span>AM</span>
+                                                                </a>
+                                                            </li>
+                                                            <li>
+                                                                <a class="timing" href="#">
+                                                                    <span>9:00</span> <span>AM</span>
+                                                                </a>
+                                                                <a class="timing selected" href="#">
+                                                                    <span>10:00</span> <span>AM</span>
+                                                                </a>
+                                                                <a class="timing" href="#">
+                                                                    <span>11:00</span> <span>AM</span>
+                                                                </a>
+                                                            </li>
+                                                            <li>
+                                                                <a class="timing" href="#">
+                                                                    <span>9:00</span> <span>AM</span>
+                                                                </a>
+                                                                <a class="timing" href="#">
+                                                                    <span>10:00</span> <span>AM</span>
+                                                                </a>
+                                                                <a class="timing" href="#">
+                                                                    <span>11:00</span> <span>AM</span>
+                                                                </a>
+                                                            </li>
+                                                            <li>
+                                                                <a class="timing" href="#">
+                                                                    <span>9:00</span> <span>AM</span>
+                                                                </a>
+                                                                <a class="timing" href="#">
+                                                                    <span>10:00</span> <span>AM</span>
+                                                                </a>
+                                                                <a class="timing" href="#">
+                                                                    <span>11:00</span> <span>AM</span>
+                                                                </a>
+                                                            </li>
+                                                        </ul>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                            <button type="button" class="btn btn-primary" id="select-time-btn">Select Time</button>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -499,14 +789,8 @@
 	<script src="/assets/js/moment.min.js"></script>
 	<script src="/assets/js/bootstrap-datetimepicker.min.js"></script>
     <script src="/assets/js/app.js"></script>
-	<script>
-            $(function () {
-                $('#datetimepicker3').datetimepicker({
-                    format: 'LT'
-
-                });
-            });
-     </script>
+    <!-- Custom script for appointment functionality -->
+    <script src="/assets/js/appointment.js"></script>
 </body>
 
 

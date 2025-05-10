@@ -144,10 +144,27 @@ module.exports.getallappointment = function(callback){
 //module.exports =router;
 
 
-module.exports.findOne =function (email , callback){
-    var query = "select *from users where email='"+email+"'" ;
-    con.query(query,callback);
-    console.log(query);
+module.exports.findOne = function(email, callback) {
+    var query = "SELECT * FROM users WHERE email=?";
+    con.query(query, [email], callback);
+}
+
+// New function to find a user by username - used by enhanced login system
+module.exports.findUserByUsername = function(username, callback) {
+    var query = "SELECT * FROM users WHERE username=?";
+    con.query(query, [username], callback);
+}
+
+// New function to find a user by email - used by secure signup
+module.exports.findUserByEmail = function(email, callback) {
+    var query = "SELECT * FROM users WHERE email=?";
+    con.query(query, [email], callback);
+}
+
+// New function to update a user's password with bcrypt hash - used by enhanced login system
+module.exports.updateUserPassword = function(userId, hashedPassword, callback) {
+    var query = "UPDATE users SET password=? WHERE id=?";
+    con.query(query, [hashedPassword, userId], callback);
 }
 
 module.exports.temp = function(id,email,token,callback){

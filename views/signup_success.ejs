@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0">
+    <link rel="shortcut icon" type="image/x-icon" href="assets/img/favicon.ico">
+    <title>Registration - Hospital Management System</title>
+    <link rel="stylesheet" type="text/css" href="assets/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="assets/css/font-awesome.min.css">
+    <link rel="stylesheet" type="text/css" href="assets/css/style.css">
+    <!--[if lt IE 9]>
+        <script src="assets/js/html5shiv.min.js"></script>
+        <script src="assets/js/respond.min.js"></script>
+    <![endif]-->
+    <style>
+        .success-icon {
+            font-size: 72px;
+            color: #1ab394;
+            margin-bottom: 20px;
+        }
+        .error-icon {
+            font-size: 72px;
+            color: #ed5565;
+            margin-bottom: 20px;
+        }
+        .message-box {
+            padding: 30px;
+            text-align: center;
+        }
+        .message-title {
+            margin-bottom: 20px;
+        }
+        .next-steps {
+            margin-top: 25px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="main-wrapper account-wrapper">
+        <div class="account-page">
+            <div class="account-center">
+                <div class="account-box">
+                    <div class="account-logo">
+                        <a href="/"><img src="assets/img/logo-dark.png" alt="Hospital Management"></a>
+                    </div>
+                    
+                    <div class="message-box">
+                        <% if (typeof error !== 'undefined' && error) { %>
+                            <div class="error-icon">
+                                <i class="fa fa-times-circle"></i>
+                            </div>
+                            <h3 class="message-title">Registration Issue</h3>
+                            <p><%= error %></p>
+                            <div class="next-steps">
+                                <a href="/signup" class="btn btn-primary">Try Again</a>
+                                <a href="/contact" class="btn btn-info">Contact Support</a>
+                            </div>
+                        <% } else { %>
+                            <div class="success-icon">
+                                <i class="fa fa-check-circle"></i>
+                            </div>
+                            <h3 class="message-title">Registration Successful!</h3>
+                            <p><%= typeof message !== 'undefined' ? message : 'Your account has been created successfully.' %></p>
+                            <div class="next-steps">
+                                <p>Please check your email to verify your account.</p>
+                                <a href="/login" class="btn btn-primary">Go to Login</a>
+                            </div>
+                        <% } %>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="assets/js/jquery-3.2.1.min.js"></script>
+    <script src="assets/js/popper.min.js"></script>
+    <script src="assets/js/bootstrap.min.js"></script>
+    <script src="assets/js/app.js"></script>
+</body>
+</html>
